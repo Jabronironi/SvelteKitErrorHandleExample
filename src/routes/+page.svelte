@@ -1,8 +1,15 @@
 <script type="ts">
     import { browser } from "$app/environment";
-    server.blowup();
-    if (browser) {
-        client.blowup();
+    import { unhandledException } from "$lib/stores";
+    import {serializeError} from 'serialize-error';  
+
+    try {
+        server.blowup();
+        if (browser) {
+            client.blowup();
+        }
+    } catch (error) {        
+        $unhandledException = JSON.stringify(serializeError(error));
     }
 </script>
 
